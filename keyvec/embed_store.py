@@ -14,6 +14,8 @@ import serde.csv
 import serde.json
 import serde.pickle
 from hugedict.sqlite import SqliteDict, SqliteDictFieldType
+from keyvec.batch_text import BatchText
+from keyvec.embed_chunk import EmbeddingChunk
 from loguru import logger
 from sm.misc.funcs import (
     assert_all_item_not_null,
@@ -29,9 +31,6 @@ from sm.misc.ray_helper import (
     ray_get_num_gpu,
 )
 from tqdm.auto import tqdm
-
-from keyvec.batch_text import BatchText
-from keyvec.embed_chunk import EmbeddingChunk
 
 # text => (dataset index, example index)
 EmbeddingIndex = SqliteDict[str, tuple[int, int]]
@@ -557,7 +556,14 @@ class EmbeddingManager:
     @cached_property
     def embed_func(self):
         if isinstance(self.embedding_model, EmbeddingModelArgs):
-            self.embedding_model = EmbeddingModel(self.embedding_model)
+            from keyvec.hf_model import HfModel, HfModelArgs
+
+            if isinstance(self.embedding_model, HfModelArgs):
+                self.embedding_model = HfModel(self.embedding_model)
+            else:
+                raise NotImplementedError(
+                    f"Unsupported embedding model {self.embedding_model}"
+                )
 
         assert isinstance(self.embedding_model, EmbeddingModel)
         return self.embedding_model.encode_texts

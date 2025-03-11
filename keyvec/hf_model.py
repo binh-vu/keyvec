@@ -13,7 +13,7 @@ from transformers import AutoModel, AutoTokenizer
 @dataclass
 class HfModelArgs(EmbeddingModelArgs):
     embedding_model: str
-    customization: str
+    customization: str = "default"
 
 
 class HfModel(EmbeddingModel[HfModelArgs]):
