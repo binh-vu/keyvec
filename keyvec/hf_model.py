@@ -4,16 +4,23 @@ from dataclasses import dataclass
 
 import numpy as np
 import torch
-from keyvec.embed_store import EmbeddingModel, EmbeddingModelArgs
 from sm.misc.funcs import assert_isinstance
 from timer import Timer
 from transformers import AutoModel, AutoTokenizer
+
+from keyvec.embed_store import EmbeddingModel, EmbeddingModelArgs
 
 
 @dataclass
 class HfModelArgs(EmbeddingModelArgs):
     embedding_model: str
     customization: str = "default"
+
+    def to_dict(self):
+        return {
+            "embedding_model": self.embedding_model,
+            "customization": self.customization,
+        }
 
 
 class HfModel(EmbeddingModel[HfModelArgs]):

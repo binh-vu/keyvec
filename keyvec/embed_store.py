@@ -14,8 +14,6 @@ import serde.csv
 import serde.json
 import serde.pickle
 from hugedict.sqlite import SqliteDict, SqliteDictFieldType
-from keyvec.batch_text import BatchText
-from keyvec.embed_chunk import EmbeddingChunk
 from loguru import logger
 from sm.misc.funcs import (
     assert_all_item_not_null,
@@ -31,6 +29,9 @@ from sm.misc.ray_helper import (
     ray_get_num_gpu,
 )
 from tqdm.auto import tqdm
+
+from keyvec.batch_text import BatchText
+from keyvec.embed_chunk import EmbeddingChunk
 
 # text => (dataset index, example index)
 EmbeddingIndex = SqliteDict[str, tuple[int, int]]

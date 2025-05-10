@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keyvec"
-version = "1.0.2"
+version = "1.0.3"
 description = "For storing mapping from keys to vectors in your disk"
 authors = ["Binh Vu <binh@toan2.com>"]
 license = "MIT"
